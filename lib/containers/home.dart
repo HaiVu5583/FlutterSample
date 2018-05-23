@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/locales/I18n.dart';
-
+import 'package:share/share.dart';
+import 'package:connectivity/connectivity.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -8,32 +11,47 @@ class Home extends StatefulWidget {
 
   @override
   _HomeState createState() => new _HomeState();
-
-
 }
 
 class _HomeState extends State<Home> {
   int _currentTab = 0;
+  String _connectionStatus = '';
+  final Connectivity _connectivity = new Connectivity();
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      setState(() => _connectionStatus = result.toString());
+    });
   }
 
-  handlePressBtn(BuildContext context) async{
-    print('Pressing PressMe');
+  Future<Null> checkConnection() async {
+    String connectionStatus;
+    try {
+      connectionStatus = (await _connectivity.checkConnectivity()).toString();
+    } on PlatformException catch (e) {
+      print(e.toString());
+      connectionStatus = 'Failed to get connectivity.';
+    }
+    setState(() {
+      _connectionStatus = connectionStatus;
+    });
+  }
 
-//    Scaffold.of(context).showBottomSheet((BuildContext context) {
-//      return new Center(
-//        child: new Column(children: [
-//          new Expanded(
-//            child: new Text(
-//              'This is Bottom Sheet',
-//              textAlign: TextAlign.center,
-//            ),
-//          )
-//        ]),
-//      );
-//    });
+  handlePressBtn(BuildContext context) async {
+    print('Pressing PressMe');
+    final RenderBox box = context.findRenderObject();
+    Share.share('(^人^)',
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _connectivitySubscription.cancel();
   }
 
   @override
@@ -83,12 +101,13 @@ class _HomeState extends State<Home> {
                   print('Tapping InkWell');
                 },
               ),
+              new Text(_connectionStatus),
               new RaisedButton(
                   child: new Text(I18n.getInstance().t('press_me')),
                   elevation: 5.0,
                   textColor: Colors.white,
                   color: Colors.blue,
-                  onPressed: (){
+                  onPressed: () {
                     handlePressBtn(context);
                   }),
               new Padding(
