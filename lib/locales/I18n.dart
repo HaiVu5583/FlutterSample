@@ -13,7 +13,6 @@ class I18n {
   t(key) => this.languageData[key] ?? '';
 
   static getInstance([String language = 'vi']) {
-    print(languages);
     if (_instance == null) {
       _instance = new I18n(language);
     }

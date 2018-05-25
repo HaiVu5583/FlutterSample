@@ -5,7 +5,7 @@ class ThemeFactory {
     return new ThemeData(
         brightness: Brightness.light,
         primaryColor: Color(0xFFF16654),
-        accentColor: Color(0xFFF16654),
+        accentColor: Colors.white,
         fontFamily: 'Quicksand'
     );
   }

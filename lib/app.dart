@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'containers/home.dart';
+import 'package:flutter_hello_world/containers/home/home.dart';
 import 'containers/login.dart';
 import 'utils/ThemeFactory.dart';
 
@@ -10,7 +10,7 @@ class App extends StatelessWidget {
     return new MaterialApp(
       title: 'Clingme Flutter',
       theme: ThemeFactory.getMainTheme(),
-      home: Login(),
+      home: Home(),
     );
   }
 }

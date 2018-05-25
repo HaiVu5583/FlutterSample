@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/locales/I18n.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'dart:async';
+import 'package:flutter_hello_world/api/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,7 +18,7 @@ class _LoginState extends State<Login> {
     var result = await facebookLogin.logInWithReadPermissions(['email']);
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        print('Logged In: '+ result.accessToken.token);
+        print('Logged In: ' + result.accessToken.token);
         break;
       case FacebookLoginStatus.cancelledByUser:
         print('User Cancel');
@@ -25,6 +27,33 @@ class _LoginState extends State<Login> {
         print('Error: ' + result.errorMessage);
         break;
     }
+  }
+
+  _handleLogin(context) async{
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      child: new Dialog(
+          child: new Padding(
+        padding: new EdgeInsets.all(10.0),
+        child: new Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            new CircularProgressIndicator(),
+            new SizedBox(width: 32.0),
+            new Text(
+              I18n.getInstance().t('loading_with_dot'),
+              style: new TextStyle(
+                  fontSize: 18.0,
+//                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+              )
+            ),
+          ],
+        ),
+      )),
+    );
+    login();
   }
 
   Widget build(BuildContext context) {
@@ -69,9 +98,7 @@ class _LoginState extends State<Login> {
                   new Expanded(
                       child: new FlatButton(
                     onPressed: () {
-                      this.setState(() {
-                        _loadingLogin = !_loadingLogin;
-                      });
+                      _handleLogin(context);
                     },
                     color: _loadingLogin ? Colors.black12 : Color(0xFFF16654),
                     child: _loadingLogin
