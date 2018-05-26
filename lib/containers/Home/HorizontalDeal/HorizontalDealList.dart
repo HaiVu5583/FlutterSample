@@ -12,44 +12,40 @@ class HorizontalDealList extends StatelessWidget {
 
   Widget build(context) {
     return new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0) ,
-                child: new Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        new Text(
-          this.title,
-          style: new TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.w500,
-              color: Colors.black87
-          ),
+        new Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                new Expanded(
+                  flex: 1,
+                  child: new Text(
+                    this.title,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.display1
+                  ),
+                ),
+                new FlatButton(
+                    onPressed: () {},
+                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                    child: new Text(I18n.getInstance().t('view_all'),
+                        style:
+                        new TextStyle(fontSize: 13.0, color: Colors.black54)))
+              ],
+            ),
         ),
-        new FlatButton(
-            onPressed: (){},
-            child: new Text(
-                I18n.getInstance().t('view_all'),
-                style: new TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.black87)
-            )
+        new Container(
+          height: 200.0,
+          child: new ListView.builder(
+            itemBuilder: (BuildContext context, int index) =>
+                HorizontalDealItem(data: content[index]),
+            itemCount: content.length,
+            scrollDirection: Axis.horizontal,
+          ),
         )
       ],
-    )
-            ),
-            new Container(
-              height: 190.0,
-              child: new ListView.builder(
-                itemBuilder: (BuildContext context, int index) =>
-                    HorizontalDealItem(data: content[index]),
-                itemCount: content.length,
-                scrollDirection: Axis.horizontal,
-              ),
-            )
-
-          ],
-        );
+    );
   }
 }

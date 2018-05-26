@@ -11,7 +11,7 @@ class HorizontalDealItem extends StatelessWidget {
   Widget build(context) {
     return new InkWell(
       child: Card(
-        elevation: 3.0,
+        elevation: 2.0,
         child: Column(
           children: <Widget>[
             new Image.network(
@@ -31,16 +31,15 @@ class HorizontalDealItem extends StatelessWidget {
                       data['title'],
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      style: new TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.display2,
                     ),
                     new Text(
                       data['promotionTitle'],
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: new TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 13.0,
+                          fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColor),
                     ),
                     new Text(
@@ -48,7 +47,7 @@ class HorizontalDealItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style:
-                          new TextStyle(fontSize: 13.0, color: Colors.black45),
+                          new TextStyle(fontSize: 12.0, color: Colors.black45, fontWeight: FontWeight.w500),
                     )
                   ],
                 ),
