@@ -35,41 +35,9 @@ Map<String, String> _getHeader() {
     "X-LANGUAGE": "vi",
     "X-CATE-RESOURCE-VERSION": '-1',
     "X-SCREEN-SIZE": "1080x1860",
-    "IS-OPEN-GPS": 'false'
+    "IS-OPEN-GPS": 'false',
   };
 }
-
-//Future<http.Response> get() {
-//  return null;
-//}
-
-//Future<bool> save(HttpClient client, String name, List<int> content) async {
-//  try {
-//    final Uri uri = new Uri.https(uriAuthority, uriPath, <String, String>{
-//      'uploadType': 'media',
-//      'name': name,
-//    });
-//    final HttpClientRequest request = await client.postUrl(uri);
-//    request
-//      ..headers.contentType = new ContentType('image', 'png')
-//      ..headers.add('Authorization', 'Bearer $authorizationToken')
-//      ..add(content);
-//
-//    final HttpClientResponse response = await request.close().timeout(timeLimit);
-//    if (response.statusCode == HttpStatus.OK) {
-//      logMessage('Saved $name');
-//      await response.drain<Null>();
-//    } else {
-//      // TODO(hansmuller): only retry on 5xx and 429 responses
-//      logMessage('Request to save "$name" (length ${content.length}) failed with status ${response.statusCode}, will retry');
-//      logMessage(await response.transform(utf8.decoder).join());
-//    }
-//    return response.statusCode == HttpStatus.OK;
-//  } on TimeoutException catch (_) {
-//    logMessage('Request to save "$name" (length ${content.length}) timed out, will retry');
-//    return false;
-//  }
-//}
 
 Future<dynamic> post(String url, bodyObj, [String baseUrl]) async {
   if (baseUrl == null) {
@@ -80,6 +48,7 @@ Future<dynamic> post(String url, bodyObj, [String baseUrl]) async {
 
   Map<String, String> headers = _getHeader();
   String jsonBody = jsonEncode(bodyObj);
+  print(baseUrl + url);
   String timeStamp =
       (new DateTime.now().millisecondsSinceEpoch / 1000).floor().toString();
   String xAuthStr = (url) +
@@ -93,46 +62,17 @@ Future<dynamic> post(String url, bodyObj, [String baseUrl]) async {
   headers['X-AUTH'] = xAuth;
   headers['X-TIMESTAMP'] = timeStamp;
 
-//  Uri uri = new Uri.https('pre-production-v2.clingme.vn', '/v2/signin', bodyObj);
-//  print(uri.toString());
-//
-//  final HttpClient client = new HttpClient();
-//  final HttpClientRequest request = await client.postUrl(uri);
-//  request
-//    ..headers.contentType = new ContentType('application', 'json')
-//    ..headers.add('X-DEVICE',
-//        'ANDROID_APA91bHuL0Rzp_ciLzyzuihhimp71svfisNOU77k7rMg4wn3Fzt2DUmvKJw4L9HilH_l6OtK16ELYnqshOqxbL-shVAJDXCAKnkiqwd7-BJ00W2jyhQn0SY')
-//    ..headers.add('X-UNIQUE-DEVICE', 'f445f833d68b3a0e3b87832a0fe792e9')
-//    ..headers.add('Accept', 'application/json')
-//    ..headers.add('X-AUTH', xAuth)
-//    ..headers.add('X-TIMESTAMP', timeStamp)
-//    ..headers.add("X-NO-SESSION", "")
-//    ..headers.add("Cookie", "")
-//    ..headers.add("X-KEYWORD-RESOURCE-VERSION", 3)
-//    ..headers.add("X-VERSION", "Android-2.1.23-dev")
-//    ..headers.add("X-MAP-RESOURCE-VERSION", 3)
-//    ..headers.add("X-INFO", "react view")
-//    ..headers.add("X-LOCATION", "0.0, 0.0")
-//    ..headers.add("X-DATA-VERSION", 1)
-//    ..headers.add("X-LANGUAGE", "vi")
-//    ..headers.add("X-CATE-RESOURCE-VERSION", -1)
-//    ..headers.add("X-SCREEN-SIZE", "1080x1860")
-//    ..headers.add("IS-OPEN-GPS", false);
-//
-//  print('Request Header: ' + request.headers.toString());
-//  final HttpClientResponse response =
-//      await request.close().timeout(Duration(milliseconds: 30000));
-//  print('Response: ' + response.statusCode.toString());
-//  String body = await response.transform(utf8.decoder).join();
-//  print('Body: ' + body);
-
-
-  final http.Response response = await http.post(
-      baseUrl + url,
-      headers: headers,
-      body: bodyObj
-  );
-  print('Response: ' + response.body);
-  print('Header: ' + response.headers.toString());
-  return response;
+  HttpClient client = new HttpClient();
+  client.postUrl(Uri.parse(baseUrl + url)).then((HttpClientRequest request) {
+    headers.forEach((key, value) {
+      request.headers.add(key, value);
+    });
+    request.write(jsonBody);
+    return request.close();
+  }).then((HttpClientResponse response) {
+    response.transform(UTF8.decoder).listen((data){
+      print('Data: ' + data);
+    });
+  });
+  return null;
 }

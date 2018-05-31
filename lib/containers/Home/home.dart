@@ -119,7 +119,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         bottomNavigationBar: new BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             new BottomNavigationBarItem(
-                icon: new Icon(Icons.account_box),
+                icon: new Icon(IconData(0xe904, fontFamily: 'icon-clingme-2-0')),
                 title: new Text(
                   I18n.getInstance().t('home'),
                   style: new TextStyle(fontWeight: FontWeight.bold),

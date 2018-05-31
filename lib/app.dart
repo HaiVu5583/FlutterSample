@@ -10,7 +10,7 @@ class App extends StatelessWidget {
     return new MaterialApp(
       title: 'Clingme Flutter',
       theme: ThemeFactory.getMainTheme(),
-      home: Home(),
+      home: Login(),
     );
   }
 }
