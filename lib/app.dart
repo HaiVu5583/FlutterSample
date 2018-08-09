@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hello_world/containers/home/home.dart';
-import 'containers/login.dart';
 import 'utils/ThemeFactory.dart';
+import 'containers/Home/home.dart';
+import 'containers/login.dart';
 
 class App extends StatelessWidget {
   // This widget is the root of your application.
@@ -10,7 +10,11 @@ class App extends StatelessWidget {
     return new MaterialApp(
       title: 'Clingme Flutter',
       theme: ThemeFactory.getMainTheme(),
-      home: Login(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Login(),
+        '/home': (context) => Home(),
+      },
     );
   }
 }

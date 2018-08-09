@@ -164,54 +164,55 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             ),
           ),
         ),
-        floatingActionButton: new Row(
-            mainAxisSize: MainAxisSize.min,
-            children: new List<Widget>.generate(icons.length, (int index) {
-              return new ScaleTransition(
-                scale: new CurvedAnimation(
-                  parent: _animationController,
-                  curve: new Interval(0.0, 1.0 - index / icons.length / 2.0,
-                      curve: Curves.easeOut),
-                ),
-                child: new Padding(
-                  padding: EdgeInsets.only(right: 5.0),
-                  child: FloatingActionButton(
-                    child: new Icon(icons[index],
-                        size: 24.0, color: Theme.of(context).primaryColor),
-                    onPressed: () {
-                      _animationController.reverse();
-                    },
-                  ),
-                ),
-              );
-            }).toList()
-              ..add(new FloatingActionButton(
-                child: new AnimatedBuilder(
-                  animation: _animationController,
-                  builder: (BuildContext context, Widget child) {
-                    return new Transform(
-                        transform: new Matrix4.rotationZ(
-                            _animationController.value * 0.5 * Math.PI),
-                        alignment: FractionalOffset.center,
-                        child: new Icon(
-                          _animationController.isDismissed
-                              ? IconData(0xe926, fontFamily: 'icon-clingme-2-0')
-                              : IconData(0xe910,
-                                  fontFamily: 'icon-clingme-2-0'),
-                          size: 24.0,
-                          color: _animationController.isDismissed
-                              ? Theme.of(context).primaryColor
-                              : Theme.of(context).disabledColor,
-                        ));
-                  },
-                ),
-                onPressed: () {
-                  if (_animationController.isDismissed) {
-                    _animationController.forward();
-                  } else {
-                    _animationController.reverse();
-                  }
-                },
-              ))));
+//        floatingActionButton: new Row(
+//            mainAxisSize: MainAxisSize.min,
+//            children: new List<Widget>.generate(icons.length, (int index) {
+//              return new ScaleTransition(
+//                scale: new CurvedAnimation(
+//                  parent: _animationController,
+//                  curve: new Interval(0.0, 1.0 - index / icons.length / 2.0,
+//                      curve: Curves.easeOut),
+//                ),
+//                child: new Padding(
+//                  padding: EdgeInsets.only(right: 5.0),
+//                  child: FloatingActionButton(
+//                    child: new Icon(icons[index],
+//                        size: 24.0, color: Theme.of(context).primaryColor),
+//                    onPressed: () {
+//                      _animationController.reverse();
+//                    },
+//                  ),
+//                ),
+//              );
+//            }).toList()
+//              ..add(new FloatingActionButton(
+//                child: new AnimatedBuilder(
+//                  animation: _animationController,
+//                  builder: (BuildContext context, Widget child) {
+//                    return new Transform(
+//                        transform: new Matrix4.rotationZ(
+//                            _animationController.value * 0.5 * Math.PI),
+//                        alignment: FractionalOffset.center,
+//                        child: new Icon(
+//                          _animationController.isDismissed
+//                              ? IconData(0xe926, fontFamily: 'icon-clingme-2-0')
+//                              : IconData(0xe910,
+//                                  fontFamily: 'icon-clingme-2-0'),
+//                          size: 24.0,
+//                          color: _animationController.isDismissed
+//                              ? Theme.of(context).primaryColor
+//                              : Theme.of(context).disabledColor,
+//                        ));
+//                  },
+//                ),
+//                onPressed: () {
+//                  if (_animationController.isDismissed) {
+//                    _animationController.forward();
+//                  } else {
+//                    _animationController.reverse();
+//                  }
+//                },
+//              )))
+    );
   }
 }

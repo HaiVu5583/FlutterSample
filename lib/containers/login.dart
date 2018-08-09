@@ -29,31 +29,31 @@ class _LoginState extends State<Login> {
     }
   }
 
-  _handleLogin(context) async{
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      child: new Dialog(
-          child: new Padding(
-        padding: new EdgeInsets.all(10.0),
-        child: new Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            new CircularProgressIndicator(),
-            new SizedBox(width: 32.0),
-            new Text(
-              I18n.getInstance().t('loading_with_dot'),
-              style: new TextStyle(
-                  fontSize: 18.0,
-//                  fontWeight: FontWeight.w500,
-                  color: Colors.black87,
-              )
-            ),
-          ],
-        ),
-      )),
-    );
-    login();
+  _handleLogin(context){
+//    showDialog(
+//      context: context,
+//      barrierDismissible: false,
+//      child: new Dialog(
+//          child: new Padding(
+//        padding: new EdgeInsets.all(10.0),
+//        child: new Row(
+//          mainAxisSize: MainAxisSize.min,
+//          children: [
+//            new CircularProgressIndicator(),
+//            new SizedBox(width: 32.0),
+//            new Text(I18n.getInstance().t('loading_with_dot'),
+//                style: new TextStyle(
+//                  fontSize: 18.0,
+////                  fontWeight: FontWeight.w500,
+//                  color: Colors.black87,
+//                )),
+//          ],
+//        ),
+//      )),
+//    );
+//    login();
+      Navigator.pushNamed(context, '/home');
+
   }
 
   Widget build(BuildContext context) {
@@ -72,65 +72,71 @@ class _LoginState extends State<Login> {
                 child: new Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                new SizedBox(height: 50.0),
-                new Image.asset(
+                SizedBox(height: 50.0),
+                Image.asset(
                   'resources/images/logo.png',
                   width: 100.0,
                   height: 70.0,
                 ),
-                new TextFormField(
+                TextFormField(
                   decoration: const InputDecoration(
                       border: const UnderlineInputBorder(),
                       filled: true,
                       labelText: 'Tên đăng nhập',
                       fillColor: Colors.white),
                 ),
-                const SizedBox(height: 20.0),
-                new TextFormField(
+                SizedBox(height: 20.0),
+                TextFormField(
                   decoration: const InputDecoration(
                       border: const UnderlineInputBorder(),
                       filled: true,
                       labelText: 'Mật khẩu',
                       fillColor: Colors.white),
                 ),
-                const SizedBox(height: 32.0),
-                new Row(children: <Widget>[
-                  new Expanded(
-                      child: new FlatButton(
+                SizedBox(height: 32.0),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48.0,
+                  child:RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(24.0)),
+                    ),
                     onPressed: () {
                       _handleLogin(context);
                     },
                     color: _loadingLogin ? Colors.black12 : Color(0xFFF16654),
                     child: _loadingLogin
                         ? new CircularProgressIndicator(
-                            backgroundColor: Color(0xFFF16654),
-                          )
+                      backgroundColor: Color(0xFFF16654),
+                    )
                         : new Text(
-                            I18n.getInstance().t('login'),
-                            style: new TextStyle(color: Colors.white),
-                          ),
-                  ))
-                ]),
-                const SizedBox(height: 12.0),
-                new Container(
-                  child: new Column(
-                      children: <Widget>[new Text(I18n.getInstance().t('or'))]),
+                      I18n.getInstance().t('login'),
+                      style: new TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 12.0),
-                new Row(children: <Widget>[
-                  new Expanded(
-                      child: new FlatButton.icon(
-                          color: Color(0xFF3B5998),
-                          onPressed: _handleLoginFacebook,
-                          icon: new Icon(
-                              IconData(0xe945, fontFamily: 'icon-clingme-2-0'),
-                              size: 24.0,
-                              color: Colors.white),
-                          label: new Text(
-                            I18n.getInstance().t('login_with_facebook'),
-                            style: new TextStyle(color: Colors.white),
-                          )))
-                ])
+                Text(I18n.getInstance().t('or')),
+                SizedBox(height: 12.0),
+                SizedBox(
+                  child: RaisedButton.icon(
+                      color: Color(0xFF3B5998),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(24.0)),
+                      ),
+                      onPressed: _handleLoginFacebook,
+                      icon: new Icon(
+                          IconData(0xe945, fontFamily: 'icon-clingme-2-0'),
+                          size: 24.0,
+                          color: Colors.white),
+                      label: new Text(
+                        I18n.getInstance().t('login_with_facebook'),
+                        style: new TextStyle(color: Colors.white),
+                      )),
+                  width: double.infinity,
+                  height: 48.0,
+                )
+
               ],
             ))),
       ),
