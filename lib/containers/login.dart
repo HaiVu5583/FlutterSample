@@ -12,9 +12,10 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool _loadingLogin = false;
+  String _data = "";
 
   _handleLoginFacebook() async {
-    var facebookLogin = new FacebookLogin();
+    var facebookLogin = FacebookLogin();
     var result = await facebookLogin.logInWithReadPermissions(['email']);
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
@@ -29,20 +30,20 @@ class _LoginState extends State<Login> {
     }
   }
 
-  _handleLogin(context){
+  _handleLogin(context) async{
 //    showDialog(
 //      context: context,
 //      barrierDismissible: false,
-//      child: new Dialog(
-//          child: new Padding(
-//        padding: new EdgeInsets.all(10.0),
-//        child: new Row(
+//      child: Dialog(
+//          child: Padding(
+//        padding: EdgeInsets.all(10.0),
+//        child: Row(
 //          mainAxisSize: MainAxisSize.min,
 //          children: [
-//            new CircularProgressIndicator(),
-//            new SizedBox(width: 32.0),
-//            new Text(I18n.getInstance().t('loading_with_dot'),
-//                style: new TextStyle(
+//            CircularProgressIndicator(),
+//            SizedBox(width: 32.0),
+//            Text(I18n.getInstance().t('loading_with_dot'),
+//                style: TextStyle(
 //                  fontSize: 18.0,
 ////                  fontWeight: FontWeight.w500,
 //                  color: Colors.black87,
@@ -51,9 +52,13 @@ class _LoginState extends State<Login> {
 //        ),
 //      )),
 //    );
-//    login();
-      Navigator.pushNamed(context, '/home');
-
+   String data = await login();
+   print("Pass login");
+   this.setState((){
+     _data = data;
+   });
+   print("Data: " + data);
+    // Navigator.pushNamed(context, '/home');
   }
 
   Widget build(BuildContext context) {
@@ -61,15 +66,15 @@ class _LoginState extends State<Login> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: new BoxDecoration(
-          image: new DecorationImage(
+        decoration: BoxDecoration(
+          image: DecorationImage(
               image: AssetImage('resources/images/login_background.jpg'),
               fit: BoxFit.cover),
         ),
-        child: new Padding(
-            padding: new EdgeInsets.all(32.0),
-            child: new Center(
-                child: new Column(
+        child: Padding(
+            padding: EdgeInsets.all(32.0),
+            child: Center(
+                child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 SizedBox(height: 50.0),
@@ -97,7 +102,7 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   width: double.infinity,
                   height: 48.0,
-                  child:RaisedButton(
+                  child: RaisedButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(24.0)),
                     ),
@@ -106,13 +111,13 @@ class _LoginState extends State<Login> {
                     },
                     color: _loadingLogin ? Colors.black12 : Color(0xFFF16654),
                     child: _loadingLogin
-                        ? new CircularProgressIndicator(
-                      backgroundColor: Color(0xFFF16654),
-                    )
-                        : new Text(
-                      I18n.getInstance().t('login'),
-                      style: new TextStyle(color: Colors.white),
-                    ),
+                        ? CircularProgressIndicator(
+                            backgroundColor: Color(0xFFF16654),
+                          )
+                        : Text(
+                            I18n.getInstance().t('login'),
+                            style: TextStyle(color: Colors.white),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 12.0),
@@ -125,17 +130,19 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.all(Radius.circular(24.0)),
                       ),
                       onPressed: _handleLoginFacebook,
-                      icon: new Icon(
+                      icon: Icon(
                           IconData(0xe945, fontFamily: 'icon-clingme-2-0'),
                           size: 24.0,
                           color: Colors.white),
-                      label: new Text(
+                      label: Text(
                         I18n.getInstance().t('login_with_facebook'),
-                        style: new TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white),
                       )),
                   width: double.infinity,
                   height: 48.0,
-                )
+                ),
+                SizedBox(height: 12.0),
+                Text(_data),
 
               ],
             ))),

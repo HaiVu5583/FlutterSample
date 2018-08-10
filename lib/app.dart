@@ -8,7 +8,6 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Clingme Flutter',
       theme: ThemeFactory.getMainTheme(),
       initialRoute: '/',
       routes: {

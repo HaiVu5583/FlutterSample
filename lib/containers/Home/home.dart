@@ -74,96 +74,94 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        body: new Builder(builder: (BuildContext context) {
-          return new Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: new Column(
-              children: <Widget>[
-                new SizedBox(height: 25.0),
-                new Card(
-                    elevation: 2.0,
-                    child: new TextFormField(
-                        decoration: const InputDecoration(
-                      contentPadding: const EdgeInsets.all(12.0),
-                      border: InputBorder.none,
-                      filled: false,
-                      hintText: 'Ưu đãi, tiện ích, địa điểm...',
-                      fillColor: Colors.white,
-                      prefixIcon: const Padding(
-                        padding: const EdgeInsets.only(right: 7.0),
-                        child: const Icon(
-                          IconData(0xe901, fontFamily: 'icon-clingme-2-0'),
-                          size: 24.0,
-                          color: Colors.black38,
-                        ),
+      body: new Builder(builder: (BuildContext context) {
+        return new Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: new Column(
+            children: <Widget>[
+              new SizedBox(height: 25.0),
+              new Card(
+                  elevation: 2.0,
+                  child: new TextFormField(
+                      decoration: const InputDecoration(
+                    contentPadding: const EdgeInsets.all(12.0),
+                    border: InputBorder.none,
+                    filled: false,
+                    hintText: 'Ưu đãi, tiện ích, địa điểm...',
+                    fillColor: Colors.white,
+                    prefixIcon: const Padding(
+                      padding: const EdgeInsets.only(right: 7.0),
+                      child: const Icon(
+                        IconData(0xe901, fontFamily: 'icon-clingme-2-0'),
+                        size: 24.0,
+                        color: Colors.black38,
                       ),
-                    ))),
-                new HorizontalDealList(
-                  id: 53,
-                  title: 'Dành cho tín đồ trà sữa',
-                  content: blockData,
-                ),
-                new SizedBox(height: 24.0),
-                new RaisedButton(
-                    child: new Text(I18n.getInstance().t('press_me')),
-                    elevation: 5.0,
-                    textColor: Colors.white,
-                    color: Colors.blue,
-                    onPressed: () {
-                      handlePressBtn(context);
-                    }),
-              ],
-            ),
-          );
-        }),
-        bottomNavigationBar: new BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            new BottomNavigationBarItem(
-                icon: new Icon(IconData(0xe904, fontFamily: 'icon-clingme-2-0')),
-                title: new Text(
-                  I18n.getInstance().t('home'),
-                  style: new TextStyle(fontWeight: FontWeight.bold),
-                ),
-                backgroundColor: Colors.deepOrange),
-            new BottomNavigationBarItem(
-                icon:
-                    new Icon(IconData(0xe954, fontFamily: 'icon-clingme-2-0')),
-                title: new Text(I18n.getInstance().t('mark_deal'),
-                    style: new TextStyle(fontWeight: FontWeight.bold))),
-            new BottomNavigationBarItem(
-              icon: new Icon(IconData(0xe948, fontFamily: 'icon-clingme-2-0')),
-              title: new Text(I18n.getInstance().t('notification'),
-                  style: new TextStyle(fontWeight: FontWeight.bold)),
-              backgroundColor: Colors.blue,
-            ),
-            new BottomNavigationBarItem(
-                icon:
-                    new Icon(IconData(0xe908, fontFamily: 'icon-clingme-2-0')),
-                title: new Text(I18n.getInstance().t('profile'),
-                    style: new TextStyle(fontWeight: FontWeight.bold)))
-          ],
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _currentTab,
-          onTap: (value) {
-            print('Tapping BottomBar' + value.toString());
-            setState(() {
-              _currentTab = value;
-            });
-          },
-        ),
-        drawer: new Drawer(
-          child: new Container(
-            color: Theme.of(context).accentColor,
-            alignment: Alignment.center,
-            child: new Text(
-              'Drawer Header',
-              style: new TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontSize: 24.0,
+                    ),
+                  ))),
+              new HorizontalDealList(
+                id: 53,
+                title: 'Dành cho tín đồ trà sữa',
+                content: blockData,
               ),
+              new SizedBox(height: 24.0),
+              new RaisedButton(
+                  child: new Text(I18n.getInstance().t('press_me')),
+                  elevation: 5.0,
+                  textColor: Colors.white,
+                  color: Colors.blue,
+                  onPressed: () {
+                    handlePressBtn(context);
+                  }),
+            ],
+          ),
+        );
+      }),
+      bottomNavigationBar: new BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          new BottomNavigationBarItem(
+              icon: new Icon(IconData(0xe904, fontFamily: 'icon-clingme-2-0')),
+              title: new Text(
+                I18n.getInstance().t('home'),
+                style: new TextStyle(fontWeight: FontWeight.bold),
+              ),
+              backgroundColor: Colors.deepOrange),
+          new BottomNavigationBarItem(
+              icon: new Icon(IconData(0xe954, fontFamily: 'icon-clingme-2-0')),
+              title: new Text(I18n.getInstance().t('mark_deal'),
+                  style: new TextStyle(fontWeight: FontWeight.bold))),
+          new BottomNavigationBarItem(
+            icon: new Icon(IconData(0xe948, fontFamily: 'icon-clingme-2-0')),
+            title: new Text(I18n.getInstance().t('notification'),
+                style: new TextStyle(fontWeight: FontWeight.bold)),
+            backgroundColor: Colors.blue,
+          ),
+          new BottomNavigationBarItem(
+              icon: new Icon(IconData(0xe908, fontFamily: 'icon-clingme-2-0')),
+              title: new Text(I18n.getInstance().t('profile'),
+                  style: new TextStyle(fontWeight: FontWeight.bold)))
+        ],
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentTab,
+        onTap: (value) {
+          print('Tapping BottomBar' + value.toString());
+          setState(() {
+            _currentTab = value;
+          });
+        },
+      ),
+      drawer: new Drawer(
+        child: new Container(
+          color: Theme.of(context).accentColor,
+          alignment: Alignment.center,
+          child: new Text(
+            'Drawer Header',
+            style: new TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontSize: 24.0,
             ),
           ),
         ),
+      ),
 //        floatingActionButton: new Row(
 //            mainAxisSize: MainAxisSize.min,
 //            children: new List<Widget>.generate(icons.length, (int index) {
