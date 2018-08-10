@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
     }
   }
 
-  _handleLogin(context) async{
+  _handleLogin(context) async {
 //    showDialog(
 //      context: context,
 //      barrierDismissible: false,
@@ -52,13 +52,23 @@ class _LoginState extends State<Login> {
 //        ),
 //      )),
 //    );
-   String data = await login();
-   print("Pass login");
-   this.setState((){
-     _data = data;
-   });
-   print("Data: " + data);
-    // Navigator.pushNamed(context, '/home');
+    String rawUserData = await login();
+    this.setState(() {
+      _data = rawUserData;
+    });
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      child: Dialog(
+          child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(rawUserData),
+        ),
+      )),
+    ).then((value){
+      Navigator.pushNamed(context, '/home');
+    });
   }
 
   Widget build(BuildContext context) {
@@ -141,9 +151,6 @@ class _LoginState extends State<Login> {
                   width: double.infinity,
                   height: 48.0,
                 ),
-                SizedBox(height: 12.0),
-                Text(_data),
-
               ],
             ))),
       ),

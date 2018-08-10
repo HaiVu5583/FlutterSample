@@ -47,11 +47,9 @@ Future<dynamic> post(String url, bodyObj, [String baseUrl]) async {
   // Setup Headers
 
   Map<String, String> headers = _getHeader();
-//  String jsonBody = JsonEncoder.withIndent("").convert(bodyObj);
   String jsonBody = jsonEncode(bodyObj);
   print("Url Post:  ${baseUrl + url}");
   print("Body: ${jsonBody}");
-  print("Content-length1: ${jsonBody.length.toString()}");
   String timeStamp =
       (new DateTime.now().millisecondsSinceEpoch / 1000).floor().toString();
   String xAuthStr = (url) +
@@ -64,6 +62,7 @@ Future<dynamic> post(String url, bodyObj, [String baseUrl]) async {
   String xAuth = sha256.convert(utf8.encode(xAuthStr)).toString();
   headers['X-AUTH'] = xAuth;
   headers['X-TIMESTAMP'] = timeStamp;
-  http.Response response = await http.post(baseUrl + url, body: jsonBody, headers: headers);
+  http.Response response =
+      await http.post(baseUrl + url, body: jsonBody, headers: headers);
   return response.body;
 }
