@@ -67,7 +67,7 @@ class _LoginState extends State<Login> {
         ),
       )),
     ).then((value){
-      Navigator.pushNamed(context, '/home');
+      Navigator.popAndPushNamed(context, '/home');
     });
   }
 

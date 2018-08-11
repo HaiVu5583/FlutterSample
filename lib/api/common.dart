@@ -39,6 +39,14 @@ Map<String, String> _getHeader() {
   };
 }
 
+String _getQueryParam(Map<String, String> params) {
+  String query = "?";
+  params.forEach((key, value) {
+    query += "$key=$value&";
+  });
+  return query;
+}
+
 Future<dynamic> post(String url, bodyObj, [String baseUrl]) async {
   if (baseUrl == null) {
     baseUrl = _getServerUrl();
@@ -48,21 +56,40 @@ Future<dynamic> post(String url, bodyObj, [String baseUrl]) async {
 
   Map<String, String> headers = _getHeader();
   String jsonBody = jsonEncode(bodyObj);
-  print("Url Post:  ${baseUrl + url}");
-  print("Body: ${jsonBody}");
+  print("Post URL: " + baseUrl + url);
+  print("Post BODY: " + jsonBody);
   String timeStamp =
       (new DateTime.now().millisecondsSinceEpoch / 1000).floor().toString();
-  String xAuthStr = (url) +
-      headers['X-UNIQUE-DEVICE'] +
-      headers['X-DATA-VERSION'] +
-      headers['X-VERSION'] +
-      timeStamp +
-      SECRET_KEY +
-      jsonBody;
+  String xAuthStr =
+      "$url$headers['X-UNIQUE-DEVICE']$headers['X-DATA-VERSION']$headers['X-VERSION']$timeStamp$SECRET_KEY$jsonBody";
   String xAuth = sha256.convert(utf8.encode(xAuthStr)).toString();
   headers['X-AUTH'] = xAuth;
   headers['X-TIMESTAMP'] = timeStamp;
   http.Response response =
       await http.post(baseUrl + url, body: jsonBody, headers: headers);
-  return response.body;
+  String body = utf8.decode(response.bodyBytes);
+  return body;
+}
+
+Future<dynamic> get(String url, Map<String, String> params,
+    [String baseUrl]) async {
+  if (baseUrl == null) {
+    baseUrl = _getServerUrl();
+  }
+
+  // Setup Headers
+
+  Map<String, String> headers = _getHeader();
+  String timeStamp =
+      (new DateTime.now().millisecondsSinceEpoch / 1000).floor().toString();
+  String xAuthStr =
+      "$url$headers['X-UNIQUE-DEVICE']$headers['X-DATA-VERSION']$headers['X-VERSION']$timeStamp$SECRET_KEY";
+  String xAuth = sha256.convert(utf8.encode(xAuthStr)).toString();
+  headers['X-AUTH'] = xAuth;
+  headers['X-TIMESTAMP'] = timeStamp;
+  String getUrl = url + baseUrl + _getQueryParam(params);
+  print("Get URL: " + getUrl);
+  http.Response response = await http.post(getUrl, headers: headers);
+  String body = utf8.decode(response.bodyBytes);
+  return body;
 }
