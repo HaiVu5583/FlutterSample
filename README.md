@@ -7,4 +7,5 @@ Include in this sample
 * Sharing
 * Connectivity listening
 * Share preference
+* Some sample backend API request
 * Implement with some well-designed UI screen
